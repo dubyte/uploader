@@ -50,8 +50,10 @@ Remember if you are not using https your files could be intercepted. I am using 
 
 ```bash
     # you have to have a domain name so caddy can create a self signed certificate for https
-    # for internal lan use:
+    
+    # for internal lan autohttps use:
     # echo 'tls internal' | sudo tee -a /etc/caddy/Caddyfile > /dev/null
+    
     # append to your Caddyfile
     echo 'reverse_proxy /upload localhost:8080' | sudo tee -a /etc/caddy/Caddyfile > /dev/null
     
