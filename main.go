@@ -10,7 +10,8 @@ import (
 )
 
 func main() {
-	port := flag.String("port", "8080", "set the port to listen")
+	host := flag.String("host", "localhost", "the host where the web server will listen")
+	port := flag.String("port", "8080", "sets the port to listen")
 	route := flag.String("route", "/upload", "the route to upload files")
 	multiple := flag.Bool("multiple", false, "select file allows multiple files")
 	pathToSaveFiles := flag.String("save-path", "/tmp", "the path to store the uploaded files")
@@ -29,7 +30,9 @@ func main() {
 
 	http.HandleFunc(*route, u.Handler)
 
-	log.Printf("uploader: listening on port %s", *port)
+	addr := fmt.Sprintf("%s:%s", *host, *port)
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", *port), nil))
+	log.Printf("uploader: listening on: %s", addr)
+
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
