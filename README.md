@@ -16,6 +16,8 @@ It is a simple web app to upload file with an html form and a web server. The id
     sudo chmod 755 uploader
     sudo chown root:root uploader
     sudo mv uploader /usr/local/bin
+
+    # create a systemd service 
     sudo touch /etc/systemd/system/uploader.service
     sudo chmod 664 /etc/systemd/system/uploader.service
 
@@ -47,12 +49,11 @@ It is a simple web app to upload file with an html form and a web server. The id
 Remember if you are not using https your files could be intercepted. I am using caddy
 
 ```bash
- sudo tee -a /etc/caddy/Caddyfile > /dev/null <<EOT
-    your_domain {
-        tls internal
-        reverse_proxy /upload localhost:8080
-    }
-    EOT
+    # you have to have a domain name so caddy can create a self signed certificate for https
+    # for internal lan use:
+    # echo 'tls internal' | sudo tee -a /etc/caddy/Caddyfile > /dev/null
+    # append to your Caddyfile
+    echo 'reverse_proxy /upload localhost:8080' | sudo tee -a /etc/caddy/Caddyfile > /dev/null
     
     sudo systemctl restart caddy
 ```

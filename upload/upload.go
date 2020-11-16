@@ -26,8 +26,10 @@ var defaultHTML = `<!DOCTYPE html>
 <html>
 	<head>
 	<title>File Uploader</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
+		<h1>File Uploader</h1>
 		<form name="uploader" action="{{.RouteToHandleUploads}}", method="POST", enctype="multipart/form-data">
 			<label for="myfile">Select a file:</label><br><br>
 			<input type="file" name="toUpload" {{if .Multiple}} multiple {{end}}><br><br>
