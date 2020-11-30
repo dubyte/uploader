@@ -2,6 +2,9 @@
 
 It is a simple web app to upload file with an html form and a web server. The idea is to be used with a reverse_proxy that add the https, like caddy or nginx.
 
+## Use Case
+Upload files from mobile devices to servers without installing an app.
+
 ## Deployment for ubuntu arm64
 
 ```bash
