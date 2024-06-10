@@ -8,43 +8,47 @@ Upload files from mobile devices to servers without installing an app.
 ## Deployment for ubuntu arm64
 
 ```bash
-    # build 
-    GOARCH=arm64 go build .
+# build 
+GOARCH=arm64 go build .
 
-    # copy to your server
-    scp uploader user@host:~
-        
-    ssh user@host
-    cd
-    sudo chmod 755 uploader
-    sudo chown root:root uploader
-    sudo mv uploader /usr/local/bin
+# copy to your server
+scp uploader user@host:~
+    
+ssh user@host
+cd
+sudo chmod 755 uploader
+sudo chown root:root uploader
+sudo mv uploader /usr/local/bin
 
-    # create a systemd service 
-    sudo touch /etc/systemd/system/uploader.service
-    sudo chmod 664 /etc/systemd/system/uploader.service
+# create a systemd service 
+sudo touch /etc/systemd/system/uploader.service
+sudo chmod 664 /etc/systemd/system/uploader.service
+```
 
-    # copy all until EOT
-    sudo tee -a /etc/systemd/system/uploader.service > /dev/null <<EOT
-    [Unit]
-    Description=A web app to upload files to the server
+```bash
+# copy all until EOT
+sudo tee -a /etc/systemd/system/uploader.service > /dev/null <<EOT
+[Unit]
+Description=A web app to upload files to the server
 
-    [Service]
-    PIDFile=/run/uploader.pid
-    ExecStart=/usr/local/bin/uploader 
-    User=
-    Group=
+[Service]
+PIDFile=/run/uploader.pid
+ExecStart=/usr/local/bin/uploader 
+User=
+Group=
 
-    [Install]
-    WantedBy=multi-user.target
-    EOT
+[Install]
+WantedBy=multi-user.target
+EOT
+```
 
-    # test service run
-    sudo systemctl start uploader
-    sudo systemctl status uploader
+```bash
+# test service run
+sudo systemctl start uploader
+sudo systemctl status uploader
 
-    # if everything looks ok
-    sudo systemctl enable uploader
+# if everything looks ok
+sudo systemctl enable uploader
 
 ```
 
@@ -52,14 +56,14 @@ Upload files from mobile devices to servers without installing an app.
 Remember if you are not using https your files could be intercepted. I am using caddy
 
 ```bash
-    # you have to have a domain name so caddy can create a self signed certificate for https
-    
-    # for internal lan autohttps use:
-    # echo 'tls internal' | sudo tee -a /etc/caddy/Caddyfile > /dev/null
-    
-    # append to your Caddyfile
-    echo 'reverse_proxy /upload localhost:8080' | sudo tee -a /etc/caddy/Caddyfile > /dev/null
-    
-    sudo systemctl restart caddy
+# you have to have a domain name so caddy can create a self signed certificate for https
+
+# for internal lan autohttps use:
+# echo 'tls internal' | sudo tee -a /etc/caddy/Caddyfile > /dev/null
+
+# append to your Caddyfile
+echo 'reverse_proxy /upload localhost:8080' | sudo tee -a /etc/caddy/Caddyfile > /dev/null
+
+sudo systemctl restart caddy
 ```
 ## Notes
